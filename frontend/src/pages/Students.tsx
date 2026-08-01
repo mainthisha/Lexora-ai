@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react";
-import { Search, Users, Mail, GraduationCap } from "lucide-react";
+import { Search, Users, Mail, GraduationCap, Plus, X } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/layout/AppShell";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
 import { Input, Select } from "@/components/ui/Input";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { SkeletonRow } from "@/components/ui/Skeleton";
-import { api } from "@/lib/api";
+import { api, ApiError } from "@/lib/api";
 import type { BorrowRecord, Student } from "@/types";
 
 const departments = ["All", "CSE", "AI & DS", "ECE", "IT", "Mech", "Civil"];
+const formDepartments = ["CSE", "AI & DS", "ECE", "IT", "Mech", "Civil"];
+
+const emptyForm = { name: "", email: "", department: "CSE", year: 1, photo_url: "" };
 
 export default function Students() {
   const [students, setStudents] = useState<Student[]>([]);
@@ -18,13 +22,24 @@ export default function Students() {
   const [dept, setDept] = useState("All");
   const [selected, setSelected] = useState<Student | null>(null);
   const [history, setHistory] = useState<BorrowRecord[]>([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [form, setForm] = useState(emptyForm);
+  const [formError, setFormError] = useState<string | null>(null);
+
+  async function load() {
+    setLoading(true);
+    try {
+      const s = await api.listStudents({ q, department: dept });
+      setStudents(s);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   useEffect(() => {
-    setLoading(true);
-    const t = setTimeout(() => {
-      api.listStudents({ q, department: dept }).then(setStudents).finally(() => setLoading(false));
-    }, 250);
+    const t = setTimeout(load, 250);
     return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [q, dept]);
 
   async function openStudent(s: Student) {
@@ -33,9 +48,38 @@ export default function Students() {
     setHistory(h);
   }
 
+  function openAdd() {
+    setForm(emptyForm);
+    setFormError(null);
+    setModalOpen(true);
+  }
+
+  async function saveStudent() {
+    setFormError(null);
+    if (!form.name.trim() || !form.email.trim()) {
+      setFormError("Name and email are required.");
+      return;
+    }
+    try {
+      await api.createStudent(form);
+      setModalOpen(false);
+      load();
+    } catch (err) {
+      setFormError(err instanceof ApiError ? err.message : "Could not add this student.");
+    }
+  }
+
   return (
     <AppShell>
-      <PageHeader title="Students" subtitle={`${students.length} registered students`} />
+      <PageHeader
+        title="Students"
+        subtitle={`${students.length} registered students`}
+        actions={
+          <Button onClick={openAdd}>
+            <Plus className="size-4" /> Add student
+          </Button>
+        }
+      />
 
       <div className="flex flex-wrap gap-3">
         <div className="relative flex-1 min-w-[220px]">
@@ -109,6 +153,57 @@ export default function Students() {
           )}
         </GlassCard>
       </div>
+
+      {modalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={() => setModalOpen(false)}>
+          <div className="glass rounded-2xl p-6 w-full max-w-md" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-sm font-semibold">Add student</h3>
+              <button onClick={() => setModalOpen(false)} className="text-[var(--text-faint)] hover:text-[var(--text)]">
+                <X className="size-4" />
+              </button>
+            </div>
+
+            <div className="space-y-3">
+              <div>
+                <label className="text-[11px] font-medium text-[var(--text-muted)] mb-1 block">Full name</label>
+                <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Aravind Kumar" />
+              </div>
+              <div>
+                <label className="text-[11px] font-medium text-[var(--text-muted)] mb-1 block">Email</label>
+                <Input type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="aravind@college.edu" />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-[11px] font-medium text-[var(--text-muted)] mb-1 block">Department</label>
+                  <Select value={form.department} onChange={(e) => setForm({ ...form, department: e.target.value })}>
+                    {formDepartments.map((d) => <option key={d} value={d}>{d}</option>)}
+                  </Select>
+                </div>
+                <div>
+                  <label className="text-[11px] font-medium text-[var(--text-muted)] mb-1 block">Year</label>
+                  <Select value={form.year} onChange={(e) => setForm({ ...form, year: Number(e.target.value) })}>
+                    {[1, 2, 3, 4].map((y) => <option key={y} value={y}>Year {y}</option>)}
+                  </Select>
+                </div>
+              </div>
+              <div>
+                <label className="text-[11px] font-medium text-[var(--text-muted)] mb-1 block">Photo URL (optional)</label>
+                <Input value={form.photo_url} onChange={(e) => setForm({ ...form, photo_url: e.target.value })} placeholder="Leave blank to auto-generate an avatar" />
+              </div>
+
+              {formError && (
+                <div className="text-xs text-rose-300 bg-rose-500/10 border border-rose-500/20 rounded-lg px-3 py-2">{formError}</div>
+              )}
+            </div>
+
+            <div className="flex justify-end gap-2 mt-5">
+              <Button variant="secondary" onClick={() => setModalOpen(false)}>Cancel</Button>
+              <Button onClick={saveStudent}>Add student</Button>
+            </div>
+          </div>
+        </div>
+      )}
     </AppShell>
   );
 }

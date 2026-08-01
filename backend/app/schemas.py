@@ -107,6 +107,10 @@ class StudentBase(BaseModel):
     photo_url: Optional[str] = None
 
 
+class StudentCreate(StudentBase):
+    pass
+
+
 class StudentOut(StudentBase):
     model_config = ConfigDict(from_attributes=True)
     id: int

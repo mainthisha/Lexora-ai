@@ -81,6 +81,7 @@ export const api = {
     return request<Student[]>(`/api/students${qs ? `?${qs}` : ""}`);
   },
   getStudent: (id: number) => request<Student>(`/api/students/${id}`),
+  createStudent: (payload: Partial<Student>) => request<Student>("/api/students", { method: "POST", body: JSON.stringify(payload) }),
   studentHistory: (id: number) => request<BorrowRecord[]>(`/api/students/${id}/history`),
 
   // ---- borrow / return ----

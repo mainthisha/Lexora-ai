@@ -6,9 +6,13 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models import BorrowRecord, Student
-from app.schemas import BorrowRecordOut, StudentOut
+from app.schemas import BorrowRecordOut, StudentCreate, StudentOut
 
 router = APIRouter(prefix="/api/students", tags=["students"])
+
+
+def avatar_for(name: str) -> str:
+    return f"https://api.dicebear.com/9.x/notionists/svg?seed={name.replace(' ', '+')}&backgroundColor=6d28d9,4f46e5,7c3aed"
 
 
 def _to_out(student: Student, db: Session) -> StudentOut:
@@ -47,6 +51,24 @@ def get_student(student_id: int, db: Session = Depends(get_db)):
     student = db.query(Student).get(student_id)
     if not student:
         raise HTTPException(status_code=404, detail="Student not found.")
+    return _to_out(student, db)
+
+
+@router.post("", response_model=StudentOut, status_code=201)
+def create_student(payload: StudentCreate, db: Session = Depends(get_db)):
+    if db.query(Student).filter(Student.email == payload.email).first():
+        raise HTTPException(status_code=400, detail="A student with this email already exists.")
+
+    student = Student(
+        name=payload.name,
+        email=payload.email,
+        department=payload.department,
+        year=payload.year,
+        photo_url=payload.photo_url or avatar_for(payload.name),
+    )
+    db.add(student)
+    db.commit()
+    db.refresh(student)
     return _to_out(student, db)
 
 
