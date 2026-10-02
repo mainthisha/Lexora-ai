@@ -139,14 +139,63 @@ lexora-ai/
         ├── lib/
         ├── hooks/
         └── types/
+```
 
-## 📌 About
+---
 
-**Lexora AI** is a modern AI-powered Library Management System that combines essential library operations with intelligent insights and personalized recommendations.
+## 🤖 AI Features
 
-It provides a unified platform for managing books, students, borrowing, returns, fines, analytics, notifications, and library activities while helping administrators understand usage patterns and make better data-driven decisions.
+The forecasting and recommendation logic is implemented using transparent and explainable heuristics rather than a trained machine-learning model.
 
-### 📚 Manage Smarter. Discover Better. Learn More.
+Current intelligent features include:
+
+- Category-affinity scoring
+- Popularity analysis
+- AI-score blending
+- Rule-based alert thresholds
+- Demand forecasting logic
+
+This keeps the application lightweight and runnable without external AI dependencies while providing a clear foundation for integrating trained ML models in the future.
+
+---
+
+## 🎨 Design
+
+Lexora AI follows a premium SaaS-dashboard aesthetic with:
+
+- 🌑 Dark glassmorphism
+- 💜 Neon violet and blue accents
+- ✨ Smooth animations
+- 📊 Interactive data visualizations
+- 🧩 Modern dashboard cards
+- 📱 Responsive layouts
+- ⚡ Clean and intuitive navigation
+
+---
+
+## 🛡️ Architecture
+
+Lexora AI follows a full-stack architecture where the frontend communicates with the backend through REST APIs.
+
+```text
+        ┌──────────────────────────┐
+        │       Lexora AI          │
+        │ React + TypeScript       │
+        └────────────┬─────────────┘
+                     │
+                     │ REST API
+                     ▼
+        ┌──────────────────────────┐
+        │      FastAPI Backend     │
+        │         Python           │
+        └────────────┬─────────────┘
+                     │
+                     ▼
+        ┌──────────────────────────┐
+        │        Database          │
+        │   SQLite / PostgreSQL    │
+        └──────────────────────────┘
+```
 
 ---
 
