@@ -5,7 +5,7 @@ A standalone, production-quality AI-powered Library Management System designed t
 🌐 **Live Demo:** https://lexora-ai-three.vercel.app/login
 
 - **Frontend:** React + Vite + TypeScript + Tailwind CSS v4 + Framer Motion + Recharts + React Router
-- **Backend:** FastAPI + SQLAlchemy + SQLite (swappable to PostgreSQL) + JWT authentication
+- **Backend:** FastAPI + SQLAlchemy + SQLite (swappable to PostgreSQL) + JWT Authentication
 - **Design:** Dark glassmorphism, neon violet/blue, premium SaaS-dashboard aesthetic
 
 ---
@@ -14,23 +14,31 @@ A standalone, production-quality AI-powered Library Management System designed t
 
 ### 📊 Smart Dashboard
 
+Lexora AI provides a centralized dashboard to monitor library activity and important insights.
+
 - Library statistics and overview
 - Borrowing trends
 - Category usage
-- Demand forecasting
 - Student engagement
 - Popular books
 - Recent activity
+- Demand forecasting
 
 ### 📚 Book Management
 
+Manage the complete library catalog through a simple and organized interface.
+
 - Search and filter books
-- Category-based filtering
-- Add, edit, and delete books
+- Filter by category
+- Add new books
+- Edit book information
+- Delete books
 - View detailed book information
 - Track book availability
 
 ### 👨‍🎓 Student Management
+
+Manage student information and understand individual borrowing activity.
 
 - Student profiles
 - Department-based filtering
@@ -40,13 +48,19 @@ A standalone, production-quality AI-powered Library Management System designed t
 
 ### 🔄 Borrow & Return Management
 
-- Issue books with configurable loan periods
+Handle the complete borrowing and return process digitally.
+
+- Issue books
+- Configure loan periods
 - Track active loans
-- Return and renew books
-- Automatic fine calculation
-- Overdue tracking
+- Return books
+- Renew books
+- Automatically calculate fines
+- Track overdue books
 
 ### 🧠 AI Insights
+
+Lexora AI provides intelligent insights to help understand library usage and book demand.
 
 - Demand forecasting
 - Book popularity analysis
@@ -56,30 +70,39 @@ A standalone, production-quality AI-powered Library Management System designed t
 
 ### 🎯 Smart Recommendations
 
-- Category-affinity recommendations
+The recommendation system helps identify relevant and popular books.
+
+- Category-based recommendations
 - Student-specific recommendations
 - Library-wide trending books
 - Popularity-based recommendations
 
 ### 📈 Reports & Analytics
 
+Visualize library data through interactive reports and analytics.
+
 - Category usage analytics
 - Monthly borrowing trends
 - Student engagement analytics
-- Interactive data visualizations
+- Interactive charts
 - CSV report export
 
 ### 🔔 Smart Notifications
 
+Stay updated with important library activities.
+
 - Overdue reminders
 - Fine alerts
-- AI and demand alerts
+- Demand alerts
+- AI insight notifications
 - Read/unread notification management
 
 ### 🔐 Authentication & Administration
 
+Secure access and administration features for managing the platform.
+
 - JWT-based authentication
-- Secure password hashing
+- Password hashing
 - Admin profile
 - Application settings
 - Help and support
@@ -88,7 +111,7 @@ A standalone, production-quality AI-powered Library Management System designed t
 
 ## 🌐 Live Application
 
-Experience Lexora AI:
+Explore the deployed Lexora AI application:
 
 **https://lexora-ai-three.vercel.app/login**
 
@@ -98,33 +121,21 @@ Experience Lexora AI:
 
 ```text
 lexora-ai/
-├── backend/           FastAPI REST API, SQLite database, seed data
-│   └── app/
-│       ├── main.py         App entrypoint, CORS, router wiring
-│       ├── database.py     SQLAlchemy engine/session
-│       ├── models.py       ORM models
-│       ├── schemas.py      Pydantic request/response schemas
-│       ├── auth.py         JWT + password hashing
-│       ├── seed.py         Demo data and initial library records
-│       └── routers/        auth, books, students, borrow, analytics,
-│                           insights, notifications
 │
-└── frontend/          Vite + React + TypeScript SPA
+├── backend/
+│   └── app/
+│       ├── main.py
+│       ├── database.py
+│       ├── models.py
+│       ├── schemas.py
+│       ├── auth.py
+│       ├── seed.py
+│       └── routers/
+│
+└── frontend/
     └── src/
-        ├── pages/          Dashboard, Books, Students, Borrow, Returns,
-        │                   Insights, Recommendations, Analytics,
-        │                   Notifications, Settings, ...
-        ├── components/     Layout, UI components, charts
-        ├── lib/             Typed API client
-        ├── hooks/           Authentication hooks
-        └── types/           Shared TypeScript interfaces
-
----
-
-## 📌 About
-
-**Lexora AI** brings traditional library management and intelligent data-driven features together in one modern platform.
-
-It helps manage books, students, borrowing, returns, fines, recommendations, analytics, notifications, and library insights through a unified digital experience.
-
-### 📚 Manage Smarter. Discover Better. Learn More.
+        ├── pages/
+        ├── components/
+        ├── lib/
+        ├── hooks/
+        └── types/
