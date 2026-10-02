@@ -139,3 +139,21 @@ lexora-ai/
         ├── lib/
         ├── hooks/
         └── types/
+
+## 📌 About
+
+**Lexora AI** is a modern AI-powered Library Management System that combines essential library operations with intelligent insights and personalized recommendations.
+
+It provides a unified platform for managing books, students, borrowing, returns, fines, analytics, notifications, and library activities while helping administrators understand usage patterns and make better data-driven decisions.
+
+### 📚 Manage Smarter. Discover Better. Learn More.
+
+---
+
+## 🎯 Conclusion
+
+**Lexora AI** transforms traditional library management into a smarter and more connected digital experience.
+
+By bringing management tools, analytics, recommendations, and intelligent insights together in one platform, it makes library operations more organized, efficient, and user-friendly.
+
+### 🚀 Smarter Libraries. Better Experiences.
